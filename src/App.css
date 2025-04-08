@@ -242,6 +242,19 @@ h2 {
   margin-top: 30px;
   margin-bottom: -100px;
 }
+.game-card {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.game-card img {
+  width: 100px;
+  height: auto;
+  border-radius: 10px;
+}
 
 .game-slide img {
   width: 100%;
