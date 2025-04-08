@@ -4,168 +4,148 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./App.css";
 import f1 from "./images/f1.mp4";
-
-
+import godofwar from "./images/godofwar.jpg";
+import lastofus from "./images/lastofus.jpg";
+import cyberpunk from "./images/cyberpunk.jpg";
 
 function App() {
-  // Состояние для отзывов
-  const [reviews, setReviews] = useState(
-    JSON.parse(localStorage.getItem("reviews")) || []
-  );
-  const [reviewText, setReviewText] = useState("");
-  const [rating, setRating] = useState(5);
-
-  // Фильтрация игр
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredGames, setFilteredGames] = useState([]);
+  const [gameTitle, setGameTitle] = useState("");
+  const [recommendations, setRecommendations] = useState(
+    JSON.parse(localStorage.getItem("recommendations")) || []
+  );
 
 
-  const games = [
-    { title: "God of War", genre: "Экшен, мифология", img: "godofwar.jpg" },
-    { title: "The Last of Us", genre: "Выживание, драма", img: "lastofus.jpg" },
-    { title: "Cyberpunk 2077", genre: "Футуристический экшен-RPG", img: "cyberpunk2077.jpg" },
+
+  const sliderGames = [
+    { title: "God of War", genre: "Экшен, мифология", img: godofwar },
+    { title: "The Last of Us", genre: "Выживание, драма", img: lastofus },
+    { title: "Cyberpunk 2077", genre: "Футуристический экшен-RPG", img: cyberpunk },
+  ];
+
+  const catalogGames = [
     { title: "The Witcher 3: Wild Hunt", genre: "Фэнтези, RPG", img: "witcher3.jpg" },
     { title: "Elden Ring", genre: "Открытый мир, souls-like", img: "eldenring.jpg" },
     { title: "Red Dead Redemption 2", genre: "Вестерн, открытый мир", img: "rdr2.jpg" },
     { title: "Horizon Forbidden West", genre: "Фантастика, приключения", img: "horizonfw.jpg" },
     { title: "Ghost of Tsushima", genre: "Самураи, экшен", img: "ghostoftsushima.jpg" },
-    { title: "Dark Souls III", genre: "Экшен, хардкор", img: "darksouls3.jpg" },
-    { title: "Bloodborne", genre: "Готический хоррор, souls-like", img: "bloodborne.jpg" },
-    { title: "Resident Evil 4 Remake", genre: "Хоррор, выживание", img: "re4remake.jpg" },
-    { title: "Death Stranding", genre: "Приключения, постапокалипсис", img: "deathstranding.jpg" }
-];
+    { title: "Dark Souls III", genre: "Экшен, хардкор", img: "darksouls3.jpg" }
+  ];
 
-
-  useEffect(() => {
-    setFilteredGames(games);
-  }, []);
-
-  // Обновление фильтра
   useEffect(() => {
     setFilteredGames(
-      games.filter((game) =>
+      catalogGames.filter((game) =>
         game.title.toLowerCase().includes(searchQuery.toLowerCase())
       )
     );
   }, [searchQuery]);
 
-  // Добавление отзыва
-  const addReview = () => {
-    if (reviewText.trim() === "") return;
-    const newReviews = [...reviews, { text: reviewText, rating }];
-    setReviews(newReviews);
-    localStorage.setItem("reviews", JSON.stringify(newReviews));
-    setReviewText("");
-    setRating(5);
+  const addRecommendation = (recom) => {
+    recom.preventDefault();
+    if (!gameTitle.trim()) return;
+    const updatedRecommendations = [...recommendations, { title: gameTitle }];
+    setRecommendations(updatedRecommendations);
+    localStorage.setItem("recommendations", JSON.stringify(updatedRecommendations));
+    setGameTitle("");
   };
-  
 
-  // Настройки слайдера
+
   const sliderSettings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 900,
     slidesToShow: 2,
     slidesToScroll: 1,
   };
-  
 
   return (
     <div className="app">
-      {/* Хедер */}
-      
       <header className="header">
-      <div className="header-logo">
-      <img src="game1.jpg" alt="CyberQuest 2078" />
-  </div>
+        <div className="header-logo">
+          <img src="game1.jpg" alt="иконка" />
+        </div>
         <nav>
           <ul>
-            <li><a href="#">Главная</a></li>
-            <li><a href="#">Каталог</a></li>
-            <li><a href="#">Популярное</a></li>
-            <li><a href="#">Новинки</a></li>
-            <li><a href="#">Отзывы</a></li>
+            <li><a href="#home">Главная</a></li>
+            <li><a href="#catalog">Каталог</a></li>
+            <li><a href="#popular">Популярное</a></li>
+            <li><a href="#new">Новинки</a></li>
+            <li><a href="#reviews">Отзывы</a></li>
           </ul>
         </nav>
-        <label for="nav_check" class="menu">
-      <div></div>
-      <div></div>
-      <div></div>
-  </label>
       </header>
-{/* Видео-заставка */}
-<div className="header-background-intro">
+
+      <div id="home" className="header-background-intro">
         <video autoPlay loop muted>
-        <source src={f1} type="video/mp4" />
+          <source src={f1} type="video/mp4" />
         </video>
         <div className="header-background-intro-text">
           <h1>Исследуй мир игр</h1>
           <p>Открывай новые вселенные, знакомься с друзьями и оценивай игры.</p>
           <div className="button">
-            <a href="#"><span>Исследовать</span></a>
+            <a href="#catalog"><span>Исследовать</span></a>
           </div>
         </div>
       </div>
-      
-      
-      {/* Слайдер популярных игр */}
+
+      <div className="slidetop">
+        <h2 id="popular">Лучшие релизы десятилетия</h2>
+      </div>
       <Slider {...sliderSettings}>
-        {filteredGames.map((game, index) => (
-          <div key={index} className="game-card">
+        {sliderGames.map((game, index) => (
+          <div key={index} className="game-slide">
             <img src={game.img} alt={game.title} />
-            <h3>{game.title}</h3>
-            <p>{game.genre}</p>
+            <div className="game-info">
+              <h3>{game.title}</h3>
+              <p>{game.genre}</p>
+            </div>
           </div>
         ))}
       </Slider>
-      
-      <div className="basic-section">
-      <div className="service-container">
-        <h2>Популярные игры</h2>
-        {/* Фильтр и поиск игр */}
-      <input
-        type="text"
-        placeholder="Поиск игр..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
-        <div className="game-grid">
-          {games.map((game, index) => (
-            <div key={index} className="game-card">
-              <img src={game.img} alt={game.title} />
-              <h3>{game.title}</h3>
-              <p>{game.genre}</p>
-              <button>5 звездочек будет в будущем</button>
+
+        <div id="catalog" className="basic-section">
+          <div className="service-container">
+            <h2>Популярные игры</h2>
+            <input
+              type="text"
+              placeholder="Поиск игр..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="search-input"
+            />
+            <div className="game-grid">
+              {filteredGames.map((game, index) => (
+                <div key={index} className="game-card">
+                  <img src={game.img} alt={game.title} />
+                  <h3>{game.title}</h3>
+                  <p>{game.genre}</p>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
-      </div>
-    </div>
       
-      {/* Отзывы с рейтингом */}
-      <div className="review-section">
-        <h2>Отзывы</h2>
+      <div id="reviews" className="review-section">
+        <h2>Рекомендуйте игры</h2>
+      <form onSubmit={addRecommendation} className="recommendation-form">
         <input
           type="text"
-          placeholder="Введите ваш отзыв..."
-          value={reviewText}
-          onChange={(e) => setReviewText(e.target.value)}
+          placeholder="Введите название игры"
+          value={gameTitle}
+          onChange={(game) => setGameTitle(game.target.value)}
         />
-        <select value={rating} onChange={(e) => setRating(e.target.value)}>
-          {[...Array(10)].map((_, i) => (
-            <option key={i} value={i + 1}>{i + 1}</option>
-          ))}
-        </select>
-        <button onClick={addReview}>Добавить отзыв</button>
-        <div className="review-list">
-          {reviews.map((rev, index) => (
-            <div key={index} className="review-card">
-              <p>"{rev.text}"</p>
-              <span>Оценка: {rev.rating}/10</span>
-            </div>
-          ))}
-        </div>
+        <button type="submit">Добавить</button>
+      </form>
+      <div className="review-list">
+        {recommendations.map((rec, index) => (
+          <div key={index} className="review-card">
+            <h3>{rec.title}</h3>
+          </div>
+        ))}
       </div>
+    </div>
+
       
       {/* Футер */}
       <footer>

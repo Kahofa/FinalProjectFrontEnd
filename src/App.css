@@ -227,6 +227,62 @@ h2 {
   font-weight: bold;
   margin-bottom: 20px;
 }
+.game-slide {
+  margin-top: 90px;
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+  overflow: hidden;
+  background: #181a1b; /* Темный фон */
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  
+}
+.slidetop{
+  margin-top: 30px;
+  margin-bottom: -100px;
+}
+
+.game-slide img {
+  width: 100%;
+  height: 350px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+  
+}
+.game-slide img {
+  width: 100%;
+  aspect-ratio: 16 / 9; /* Задает пропорции 16:9 */
+  object-fit: cover;
+}
+
+.game-slide .game-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  padding: 20px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  
+}
+
+.game-slide h3 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.game-slide p {
+  margin: 5px 0 0;
+  font-size: 16px;
+  color: #ccc;
+}
+
 
 .game-grid {
   display: grid;
@@ -456,4 +512,22 @@ footer {
   margin-top: 5px;
   font-size: 14px;
   color: #ffd700;
+}
+.search-input {
+  display: block;
+  margin: 10px auto; /* Центрирование по горизонтали */
+  width: 100%;
+  max-width: 400px;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 2px solid #555;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+  text-align: center;
+}
+
+.search-input:focus {
+  border-color: #ff6600;
+  box-shadow: 0 0 8px rgba(255, 102, 0, 0.5);
 }
